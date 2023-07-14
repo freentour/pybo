@@ -172,7 +172,7 @@ AUTHENTICATION_BACKENDS = [
 
 # allauth 적용하면서 추가
 # 데이터베이스에서 django_site 테이블에 등록된 사이트의 id 번호
-SITE_ID = 1
+SITE_ID = 2
 
 
 # allauth 적용하면서 추가
