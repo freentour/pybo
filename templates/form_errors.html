@@ -1,0 +1,36 @@
+{% if form.errors %}
+    <!-- 필드 오류 출력 -->
+    <div class="alert alert-danger">
+        {% for field in form %}
+            {% if field.errors %}
+                <strong>{{ field.label }}</strong>
+                {{ field.errors }}
+            {% endif %}
+        {% endfor %}
+    </div>
+    <!-- 넌필드 오류 출력 -->
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+{% if profile_form %}
+    {% if profile_form.errors %}
+        <!-- 필드 오류 출력 -->
+        <div class="alert alert-danger">
+            {% for field in profile_form %}
+                {% if field.errors %}
+                    <strong>{{ field.label }}</strong>
+                    {{ field.errors }}
+                {% endif %}
+            {% endfor %}
+        </div>
+        <!-- 넌필드 오류 출력 -->
+        {% for error in profile_form.non_field_errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endif %}

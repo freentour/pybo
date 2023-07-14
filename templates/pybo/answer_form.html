@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block extra_head %}
+    <!-- SimpleMDE CSS & JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+{% endblock %}
+
+{% block title %}답변 등록{% endblock %}
+
+{% block content %}
+    <!-- message 표시 시작 -->
+    {% include "messages.html" %}
+    <!-- message 표시 끝 -->
+
+    <h5 class="my-3 border-bottom pb-2">답변 등록</h5>
+    <!-- [참고] form 태그에 action 속성이 없으면, submit 버튼을 눌렀을 때 해당 내용이 자기 자신에게 전송되어짐 -->
+    <form method="post" class="post-form my-3">
+        {% csrf_token %}
+        <!-- {{ form.as_p }} -->
+
+        <!-- 다음 내용은 {{ form.as_p }}를 사용하지 않고 직접 오류 표시 영역과 입력 폼을 구성한 것임. -->
+        <!-- 이렇게 하면 Bootstrap 적용하기도 좋고, 좀 더 세부적으로 콘트롤 할 수 있음. -->
+        {% include "form_errors.html" %}
+
+        <div class="form-group mb-3">
+            <label for="content">답변 내용</label>
+            <!-- textarea 시작 태그와 끝 태그 사이에는 줄바꿈이나 탭, 스페이스 등이 없도록 주의! 그렇지 않으면 해당 값들이 초기값으로 포함되게 됨 -->
+            <textarea class="form-control" name="content" id="content" rows="10">{{ form.content.value|default_if_none:'' }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">저장하기</button>
+    </form>
+{% endblock %}
+{% block script %}
+    // SimpleMDE(Markdown Editor)
+    let simplemde = new SimpleMDE({
+        element: document.getElementById("content"),
+        spellChecker: false,    // 영여에서만 동작함.
+    });
+{% endblock %}

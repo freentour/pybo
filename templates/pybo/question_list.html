@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+<!-- Custom 템플릿 필터 로드 -->
+{% load pybo_filter %}
+
+{% block title %}질문 목록 보기{% endblock %}
+
+{% block content %}
+    <div class="row my-3">
+        <div class="col-5">
+            <a href="{% url 'pybo:question_create' %}" class="btn btn-primary">질문 등록하기</a>
+        </div>
+        <div class="col-3">
+            <select id="so_kw" class="form-select" aria-label="정렬기준">
+                <option value="recent" {% if so == 'recent' %}selected{% endif %}>최신순</option>
+                <option value="recommend" {% if so == 'recommend' %}selected{% endif %}>추천순</option>
+                <option value="popular" {% if so == 'popular' %}selected{% endif %}>인기순</option>
+            </select>
+        </div>
+        <div class="col-4">
+            <div class="input-group">
+                <input type="text" id="search_kw" class="form-control" value="{{ kw|default_if_none:'' }}">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="btn_search">찾기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-hover text-center">
+        <thead>
+            <tr class="table-dark">
+                <th>번호</th>
+                <th style="width:50%;">제목</th>
+                <th>글쓴이</th>
+                <th>작성일시</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if question_list %}
+                {% for question in question_list %}
+                <tr>
+                    <!-- 게시물 일련번호 계산 공식 : 일련번호 = 전체 게시물 갯수 - 시작 인덱스 - 현재 인덱스(0~9 반복) + 1 -->
+                    <td>{{ question_list.paginator.count|sub:question_list.start_index|sub:forloop.counter0|add:1 }}</td>
+                    <td class="text-start">
+                        <a href="{% url 'pybo:detail' question.id %}">{{ question.subject }}</a>
+                        {% if question.answer_set.count > 0 %}
+                            <span class="text-danger small ml-2">{{ question.answer_set.count }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ question.author.username }}</td>
+                    <td>{{ question.create_date }}</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="3">등록된 질문이 없습니다.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+    <!-- 다른 페이지를 가지고 있으면(즉, 2페이지 이상이면) -->
+    {% if question_list.has_other_pages %}
+        <!-- 페이징 처리 시작 -->
+        <ul class="pagination justify-content-center">
+            {% if question_list.has_previous %}
+                <!-- 이전 페이지 -->
+                <li class="page-item">
+                    <a class="page-link" data-page="{{ question_list.previous_page_number }}" href="javascript:void(0)">&lt;</a>
+                </li>
+            {% else %}
+                <!-- 이전 페이지 -->
+                <li class="page-item disabled">
+                    <a class="page-link" tabindex="-1" aria-disabled="true" href="javascript:void(0)">&lt;</a>
+                </li>
+            {% endif %}
+            {% if question_list.number|add:-5 > 1 %}
+                <li class="page-item">
+                    <a class="page-link" data-page="1" href="javascript:void(0)">1</a>
+                </li>
+                <li class="page-item disabled">
+                    <a class="page-link" tabindex="-1" aria-disabled="true" href="javascript:void(0)">...</a>
+                </li>
+            {% endif %}
+            <!-- 페이지 리스트 -->
+            {% for page_number in question_list.paginator.page_range %}
+                {% if page_number >= question_list.number|add:-5 and page_number <= question_list.number|add:5 %}
+                <!-- 현재 페이지를 중심으로 앞뒤로 5페이지에 한해서만 페이지 숫자를 출력 -->
+                    {% if page_number == question_list.number %}
+                        <!-- 현재 페이지에 해당하는 페이지 번호이면 active 클래스 적용 -->
+                        <li class="page-item active" aria-current="page">
+                            <a class="page-link" data-page="{{ page_number }}" href="javascript:void(0)">{{ page_number }}</a>
+                        </li>
+                    {% else %}
+                        <!-- 현재 페이지에 해당하는 페이지 번호가 아니면 active 클래스 미적용 -->
+                        <li class="page-item">
+                            <a class="page-link" data-page="{{ page_number }}" href="javascript:void(0)">{{ page_number }}</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% if question_list.number|add:5 < question_list.paginator.num_pages %}
+                <li class="page-item disabled">
+                    <a class="page-link" tabindex="-1" aria-disabled="true" href="javascript:void(0)">...</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" data-page="{{ question_list.paginator.num_pages }}" href="javascript:void(0)">{{ question_list.paginator.num_pages }}</a>
+                </li>
+            {% endif %}
+            {% if question_list.has_next %}
+                <!-- 다음 페이지 -->
+                <li class="page-item">
+                    <a class="page-link" data-page="{{ question_list.next_page_number }}" href="javascript:void(0)">&gt;</a>
+                </li>
+            {% else %}
+                <!-- 다음 페이지 -->
+                <li class="page-item disabled">
+                    <a class="page-link" tabindex="-1" aria-disabled="true" href="javascript:void(0)">&gt;</a>
+                </li>
+            {% endif %}
+        </ul>
+        <!-- 페이징 처리 끝 -->
+    {% endif %}
+    <form id="searchForm" method="get" action="{% url 'index' %}">
+        <input type="hidden" id="kw" name="kw" value="{{ kw|default_if_none:'' }}">
+        <input type="hidden" id="page" name="page" value="{{ page }}">
+        <input type="hidden" id="so" name="so" value="{{ so }}">
+    </form>
+{% endblock %}
+{% block script %}
+const searchForm = document.getElementById('searchForm');
+const kwInput = document.getElementById('kw');
+const pageInput = document.getElementById('page');
+const searchKwInput = document.getElementById('search_kw');
+const soInput = document.getElementById('so');
+const soKwInput = document.getElementById('so_kw');
+
+// 반복되는 부분을 공통함수로 정의
+const submitSearchForm = () => {
+    kwInput.value = searchKwInput.value;
+    pageInput.value = 1;    // 검색버튼을 클릭할 경우 1페이지부터 조회한다.
+    soInput.value= soKwInput.value;
+    searchForm.submit();
+};
+
+// Pagination 영역에서 특정 페이지를 클릭했을 때
+const pageLinks = document.querySelectorAll(".page-link");
+Array.from(pageLinks).forEach((element) => {
+    element.addEventListener('click', function() {
+        pageInput.value = this.dataset.page;
+        searchForm.submit();
+    });
+});
+
+// '정렬' 기준 변경되었을 때
+soKwInput.addEventListener('change', submitSearchForm);
+
+// '찾기' 버튼 클릭했을 때
+const btnSearch = document.getElementById("btn_search");
+btnSearch.addEventListener('click', submitSearchForm);
+
+// 검색어 입력하고 '엔터'키를 눌렀을 때
+searchKwInput.addEventListener('keyup', (e) => {
+    if (e.key === 'Enter') {
+        submitSearchForm();
+    }
+});
+{% endblock %}
