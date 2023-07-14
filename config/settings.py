@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-abt++2c9g^&v4_c2eu+7!xq$v-srtoez^q$be3)3tq%_+_h=+t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['43.200.203.163']
 
 
 # Dummy caching (for development only): 캐싱을 하지 않도록 하는 것.
