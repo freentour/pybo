@@ -24,14 +24,14 @@
     <p>사용 중인 소셜계정을 이용해 로그인해 주세요. <br>또는, 위의 '회원가입' 버튼을 이용해 {{ site.name }}에 회원 가입을 진행 후 아래 로그인 양식을 이용해 로그인해 주세요.</p>
 
     <div class="row">
-        <div class="col-12 d-flex justify-content-center">
+        <div class="col-12">
             {% for provider in socialaccount_providers %}
                 {% if provider.name == 'Google' %}
-                     <a title="{{provider.name}}" class="socialaccount_provider {{provider.id}} me-1"
+                     <a title="{{provider.name}}" class="socialaccount_provider {{provider.id}}"
                  href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}"><img src="{% static 'images/allauth/google_signin_buttons/web/1x/btn_google_signin_dark_normal_web.png' %}"></a>
                 {% endif %}
                 {% if provider.name == 'Kakao' %}
-                     <a title="{{provider.name}}" class="socialaccount_provider {{provider.id}} me-1"
+                     <a title="{{provider.name}}" class="socialaccount_provider {{provider.id}}"
                  href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}"><img src="{% static 'images/allauth/kakao_signin_buttons/kakao_login_medium_narrow.png' %}" style="height:46px;"></a>
                 {% endif %}
                 {% if provider.name == 'Naver' %}
@@ -42,7 +42,7 @@
         </div>
     </div>
     <div class="row mt-3 mb-3">
-        <div class="col-12 d-flex justify-content-center">
+        <div class="col-12">
             또는
         </div>
     </div>
