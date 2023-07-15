@@ -5,7 +5,7 @@ from django.db.models import Q, Count
 from ..models import Question
 
 import logging
-logger = logging.getLogger('pybo')
+logger = logging.getLogger(__name__)
 
 
 def index(request):
