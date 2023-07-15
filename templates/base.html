@@ -11,7 +11,7 @@
     {% endblock %}
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
-    <title>파이보</title>
+    <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
     <!-- 네비게이션 바 시작 -->
