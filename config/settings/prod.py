@@ -1,7 +1,7 @@
 from .base import *
 
 ALLOWED_HOSTS = ['3rdx.2woo.net']
-# DEBUG = False
+DEBUG = False
 
 # STATIC_ROOT = BASE_DIR / 'static/'
 # STATICFILES_DIRS = []
