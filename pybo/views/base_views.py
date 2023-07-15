@@ -4,12 +4,12 @@ from django.db.models import Q, Count
 
 from ..models import Question
 
-import logging
-logger = logging.getLogger(__name__)
+# import logging
+# logger = logging.getLogger(__name__)
 
 
 def index(request):
-    logger.info("INFO 레벨로 출력")
+    # logger.info("INFO 레벨로 출력")
 
     # GET 방식으로 들어온 page 변수의 값 저장.
     # 다음 코드에서 get() 함수의 두번째 파라미터로 사용된 '1'은 page 변수의 값이 지정되지 않았을 때의 DEFAULT 값을 의미함. (숫자 1이 아니고 문자 '1'인 것에 유의)
