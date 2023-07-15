@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
+
 from .forms import UserForm, ProfileForm
 
 
@@ -34,3 +35,7 @@ def signup(request):
 
     context = {'form': form, 'profile_form': profile_form}
     return render(request, 'common/signup.html', context)
+
+
+def page_not_found(request, exception):
+    return render(request, 'common/404.html', {})
