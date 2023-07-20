@@ -26,4 +26,4 @@ DATABASES = {
 
 
 # allauth를 위한 SITE_ID
-SITE_ID = 3
+SITE_ID = 4
