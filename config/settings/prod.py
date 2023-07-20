@@ -40,5 +40,10 @@ DATABASES = {
 # STATICFILES_DIRS = []
 
 
-# allauth를 위한 SITE_ID
+'''
+# allauth를 위한 SITE_ID for PostgreSQL
 SITE_ID = 4
+'''
+
+# allauth를 위한 SITE_ID for PostgreSQL
+SITE_ID = 5
