@@ -9,7 +9,6 @@ env.read_env(BASE_DIR / '.env')
 
 
 # MySQL Database
-'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -17,13 +16,13 @@ DATABASES = {
         'USER': env('DB_USER'),
         'PASSWORD': env('DB_PASSWORD'),
         'HOST': env('DB_HOST'),
-        'PORT' : '3306',
+        'PORT': '3306',
     }
 }
-'''
 
 
 # PostgreSQL
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -31,19 +30,20 @@ DATABASES = {
         'USER': env('DB_USER'),
         'PASSWORD': env('DB_PASSWORD'),
         'HOST': env('DB_HOST'),
-        'PORT' : '5432',
+        'PORT': '5432',
     }
 }
+'''
 
 
 # STATIC_ROOT = BASE_DIR / 'static/'
 # STATICFILES_DIRS = []
 
 
-'''
-# allauth를 위한 SITE_ID for PostgreSQL
+# allauth를 위한 SITE_ID for MySQL
 SITE_ID = 4
-'''
 
+'''
 # allauth를 위한 SITE_ID for PostgreSQL
 SITE_ID = 5
+'''
