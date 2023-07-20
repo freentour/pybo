@@ -1,7 +1,7 @@
 import environ
 from .base import *
 
-ALLOWED_HOSTS = ['3rdx.2woo.net']
+ALLOWED_HOSTS = ['43.200.203.163', '3rdx.2woo.net']
 DEBUG = False
 
 env = environ.Env()
